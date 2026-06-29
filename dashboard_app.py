@@ -1,7 +1,7 @@
-import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import streamlit as st
 
 # 1. GLOBAL PAGE LAYOUT SETUP (Premium Enterprise Suite Master Configuration)
 st.set_page_config(
@@ -14,9 +14,10 @@ st.set_page_config(
 # 2. ADVANCED PROFESSIONAL BRANDING & GLASSMORPHIC THEME STYLING (CSS Injection)
 st.markdown("""
 <style>
-    /* 🔴 VIP STEP: Hiding only branding, keeping mobile navigation header visible */
+    /* 🔴 VIP STEP: Completely Hiding Streamlit Branding Footer Header and Menus */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+    header {visibility: hidden;}
     div[data-testid="stDecoration"] {display: none;}
     
     /* Global Application Core Platform Background */
@@ -58,23 +59,23 @@ st.markdown("""
         transform: translateY(-4px);
         border-color: #3b82f6;
     }
-    .kpi-title { 
-        font-size: 13px; 
-        color: #9ca3af; 
-        font-weight: 600; 
-        text-transform: uppercase; 
-        letter-spacing: 0.08em; 
+    .kpi-title {
+        font-size: 13px;
+        color: #9ca3af;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
     }
-    .kpi-value { 
-        font-size: 36px; 
-        color: #60a5fa; 
-        font-weight: 800; 
-        margin-top: 10px; 
+    .kpi-value {
+        font-size: 36px;
+        color: #60a5fa;
+        font-weight: 800;
+        margin-top: 10px;
     }
-    .kpi-delta { 
-        font-size: 12px; 
-        color: #10b981; 
-        margin-top: 6px; 
+    .kpi-delta {
+        font-size: 12px;
+        color: #10b981;
+        margin-top: 6px;
         font-weight: 500;
     }
     
@@ -146,10 +147,10 @@ with st.sidebar:
     web_page = st.radio(
         label="Go To Section Panel:",
         options=[
-            "🏠 Corporate Home Hub", 
-            "📈 Live Control Command Dashboard", 
-            "🛍️ Supply Catalog Distribution", 
-            "📊 Funnel & Conversion Leak Analysis", 
+            "🏠 Corporate Home Hub",
+            "📈 Live Control Command Dashboard",
+            "🛍️ Supply Catalog Distribution",
+            "📊 Funnel & Conversion Leak Analysis",
             "📩 Support Request Pipeline"
         ],
         index=0
@@ -201,8 +202,9 @@ elif web_page == "📈 Live Control Command Dashboard":
     with col2:
         st.markdown(f'<div class="kpi-card"><div class="kpi-title">🏆 Top Performer Product ID</div><div class="kpi-value">{df_p["product_id"].iloc[0]}</div><div class="kpi-delta">⚡ Sales: {df_p["total_purchases"].iloc[0]} Units</div></div>', unsafe_allow_html=True)
     with col3:
-        peak_hour = int(df_t.loc[df_t['total_clicks'].idxmax()]['traffic_hour'])
-        st.markdown(f'<div class="kpi-card"><div class="kpi-title">🔥 Apex Network Peak Traffic Load</div><div class="kpi-value">{peak_hour}:00 Hrs</div><div class="kpi-delta">⏰ Highest Request Phase</div></div>', unsafe_allow_html=True)
+        # LOGIC FIX: Peak Hour Range display
+        peak_h = int(df_t.loc[df_t['total_clicks'].idxmax()]['traffic_hour'])
+        st.markdown(f'<div class="kpi-card"><div class="kpi-title">🔥 Apex Network Peak Traffic Load</div><div class="kpi-value">{peak_h:02d}:00 - {peak_h+1:02d}:00</div><div class="kpi-delta">⏰ Highest Request Phase</div></div>', unsafe_allow_html=True)
 
     st.markdown("### 📋 Pipeline Performance Audit Stream Verification Logs")
     search_pid = st.text_input("🔍 Quick Database Search - Enter Product ID to Filter Logs instantly:")
@@ -231,8 +233,11 @@ elif web_page == "🛍️ Supply Catalog Distribution":
         text='total_purchases', color='total_purchases',
         color_continuous_scale='Blues_r'
     )
+    # UI POLISH: White edge for bars
+    fig_p.update_traces(marker_line_width=1, marker_line_color="white")
+    
     fig_p.update_layout(
-        xaxis_type='category', template="plotly_dark", 
+        xaxis_type='category', template="plotly_dark",
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
         hovermode="x unified"
     )
@@ -272,4 +277,6 @@ elif web_page == "📩 Support Request Pipeline":
         
         submit_btn = st.form_submit_button("Transmit Encryption Log Data Block")
         if submit_btn:
+            # UX POLISH: Balloons for confirmation
             st.success(f"📦 Success! Operational Grid Ticket Registered Successfully under node sector '{node_sector}' by Operator '{operator_name}'. Cluster Pipeline Sync is intact.")
+            st.balloons()
