@@ -195,7 +195,6 @@ elif web_page == "📈 Live Control Command Dashboard":
     st.markdown("`Real-Time ETL Data Pipeline Ingestion Status Monitor` — 10,000 Records Checked")
     st.markdown("---")
     
-    # Executing Row Blocks Card Metrics
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown(f'<div class="kpi-card"><div class="kpi-title">🔒 Pipeline Ingestion Cluster</div><div class="kpi-value">10,000</div><div class="kpi-delta">▲ 100% Ingestion limit</div></div>', unsafe_allow_html=True)
