@@ -121,7 +121,8 @@ with st.sidebar:
 
 # PAGE 1: REFINED ENTERPRISE HOME PORTAL
 if web_page == "🏠 Corporate Home Hub":
-    st.markdown("<div class="hero-section"><h1 style='margin:0; font-size:36px; font-weight:800; color:#f8fafc;'>Apex Logistics Intelligence Portal</h1><p style='margin-top:10px; font-size:16px; color:#93c5fd;'>Automated corporate tracking layers and resource visualization cluster framework engines.</p></div>", unsafe_allow_html=True)
+    # 🌟 SYNTAX REFIX: Using single quotes inside double quotes for zero compiler error
+    st.markdown("<div class='hero-section'><h1 style='margin:0; font-size:36px; font-weight:800; color:#f8fafc;'>Apex Logistics Intelligence Portal</h1><p style='margin-top:10px; font-size:16px; color:#93c5fd;'>Automated corporate tracking layers and resource visualization cluster framework engines.</p></div>", unsafe_allow_html=True)
     st.subheader("🎯 Active Enterprise Target Systems")
     st.markdown("* Real-Time Data Storage Validation\n* Core Operational Pipeline Tuning Loads\n* Fluid Network Stream Isolation Matrices")
 
