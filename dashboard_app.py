@@ -1,129 +1,79 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import random
+import plotly.graph_objects as go
 
-# 1. GLOBAL PAGE LAYOUT SETUP WITH MASTER THEME INITIALIZATION
-st.set_page_config(
-    page_title="Apex E-Commerce Operational Suite",
-    page_icon="🦅",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# 1. GLOBAL LAYOUT (Standard Structure)
+st.set_page_config(page_title="Apex Operations🦅", layout="wide", initial_sidebar_state="expanded")
 
-# 2. 🔴 ADVANCED STRICT BRANDING REMOVAL ENGINE (Original + Mobile Sidebar Fix)
+# 2. PROFESSIONAL CSS (Mobile & Premium Fixes)
 st.markdown("""
 <style>
-    /* Absolute Layout Obliteration of Streamlit Brandings */
-    #MainMenu, footer, header, .stHeader, [data-testid="stHeader"], [data-testid="stFooter"] {
-        visibility: hidden !important;
-        display: none !important;
-    }
-    
-    /* MOBILE NAVIGATION FIX - WITHOUT TOUCHING YOUR DESIGN */
+    #MainMenu, footer, header {visibility: hidden !important;}
+    section[data-testid="stSidebar"] {background-color: #111827 !important; border-right: 1px solid #1f2937;}
     @media (max-width: 900px) {
-        section[data-testid="stSidebar"] {
-            display: block !important;
-            position: fixed !important;
-            z-index: 9999 !important;
-        }
+        section[data-testid="stSidebar"] {display: block !important; position: fixed !important; z-index: 9999 !important;}
     }
-
-    /* Core Application Premium Color Grids - YOUR ORIGINAL DESIGN */
-    .stApp {
-        background-color: #0b0f19;
-        color: #e2e8f0;
-        font-family: 'Inter', -apple-system, sans-serif;
-    }
-    .navbar-brand {
-        font-size: 24px;
-        font-weight: 800;
-        color: #3b82f6;
-        letter-spacing: 0.05em;
-        text-align: center;
-        padding: 10px;
-        border-bottom: 2px solid #1f2937;
-        margin-bottom: 25px;
-    }
-    section[data-testid="stSidebar"] {
-        background-color: #111827 !important;
-        border-right: 1px solid #1f2937;
-    }
-    .kpi-card {
-        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-        padding: 24px;
-        border-radius: 14px;
-        border: 1px solid #374151;
-        box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.5);
-        margin-bottom: 20px;
-    }
-    .kpi-title { font-size: 13px; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
-    .kpi-value { font-size: 34px; color: #60a5fa; font-weight: 800; margin-top: 8px; }
-    .kpi-delta { font-size: 12px; color: #10b981; margin-top: 4px; font-weight: 500;}
-    
-    .hero-section {
-        background: linear-gradient(90deg, #1e3a8a 0%, #0f172a 100%);
-        padding: 35px;
-        border-radius: 16px;
-        margin-bottom: 30px;
-        border: 1px solid #1d4ed8;
-    }
+    .kpi-card {background: linear-gradient(135deg, #1f2937 0%, #111827 100%); padding: 24px; border-radius: 14px; border: 1px solid #374151;}
+    .content-box {background: #111; padding: 20px; border-radius: 10px; border-left: 4px solid #3b82f6; margin-bottom: 20px;}
 </style>
 """, unsafe_allow_html=True)
 
-# 3. FAST DATA PROCESSING IN-MEMORY PIPELINE SYSTEM
+# 3. DATA ENGINE
 @st.cache_data
-def load_optimized_pipeline_data():
+def load_data():
     try:
-        raw_df = pd.read_csv("oct_2019_mini.csv")
-        df_products = raw_df.groupby('product_id').size().reset_index(name='total_purchases').sort_values(by='total_purchases', ascending=False).reset_index(drop=True)
-        df_funnel = pd.DataFrame({'event_type': ['VIEW', 'CART', 'PURCHASE'], 'total_events': [10000, 4500, 1500]})
-    except Exception:
-        df_products = pd.DataFrame({'product_id': [1004856, 1005156, 1050216], 'total_purchases': [128, 98, 87]})
-        df_funnel = pd.DataFrame({'event_type': ['VIEW', 'CART', 'PURCHASE'], 'total_events': [10000, 4500, 1500]})
-    return df_products, df_funnel
+        df = pd.read_csv("oct_2019_mini.csv")
+        df_p = df.groupby('product_id').size().reset_index(name='total').sort_values(by='total', ascending=False)
+    except:
+        df_p = pd.DataFrame({'product_id': [1004, 1005, 1050], 'total': [128, 98, 87]})
+    df_f = pd.DataFrame({'event': ['VIEW', 'CART', 'PURCHASE'], 'val': [10000, 4500, 1500]})
+    return df_p, df_f
 
-df_p, df_f = load_optimized_pipeline_data()
+df_p, df_f = load_data()
 
-# --- 🎮 APP NAVIGATION ROUTER (YOUR ORIGINAL) ---
+# 4. SIDEBAR (Eagle + Navigation)
 with st.sidebar:
-    st.markdown('<div class="navbar-brand">🦅 APEX OPERATIONS</div>', unsafe_allow_html=True)
-    web_page = st.radio("Select Site Screen View:", ["🏠 Corporate Home Hub", "📈 Live Control Command Dashboard", "🛍️ Supply Catalog Distribution", "📊 Funnel & Conversion Leak Analysis", "📩 Support Request Pipeline"])
-    st.markdown("---")
-    st.info("📦 Status: Cloud Connected\n📡 Encryption: SSL Active")
+    st.image("https://cdn-icons-png.flaticon.com/512/2855/2855848.png", width=120)
+    st.markdown('<div style="text-align:center; font-size:20px; font-weight:800; color:#3b82f6; margin-bottom:20px;">APEX OPERATIONS</div>', unsafe_allow_html=True)
+    web_page = st.radio("Navigation Menu:", ["🏠 Corporate Home Hub", "📈 Live Control Command Dashboard", "🛍️ Supply Catalog Distribution", "📊 Funnel & Conversion Leak Analysis", "📩 Support Request Pipeline"])
 
-# --- PAGES - YOUR ORIGINAL CODE ---
+# 5. CONTENT PAGES
 if web_page == "🏠 Corporate Home Hub":
-    st.markdown("<div class='hero-section'><h1 style='margin:0; font-size:36px; font-weight:800; color:#f8fafc;'>Apex Logistics Intelligence Portal</h1><p style='margin-top:10px; font-size:16px; color:#93c5fd;'>Automated corporate tracking layers and resource visualization cluster framework engines.</p></div>", unsafe_allow_html=True)
-    st.subheader("🎯 Active Enterprise Target Systems")
-    st.markdown("* Real-Time Data Storage Validation\n* Core Operational Pipeline Tuning Loads")
+    st.title("Apex Logistics Intelligence Portal")
+    st.markdown("<div class='content-box'><h3>System Executive Summary</h3><p>Apex Operations Suite is currently running at 99.9% capacity. Our real-time pipeline monitoring, data ingestion, and enterprise-grade ETL tracking modules are fully operational and synchronized with the cloud backbone.</p></div>", unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    with col1: st.subheader("🎯 Key Objectives"); st.write("• Automated Log Validation\n• High-Density Conversion Analysis")
+    with col2: st.subheader("⚙️ System Status"); st.write("• Pipeline Node: ACTIVE\n• Latency: 0.04ms")
 
 elif web_page == "📈 Live Control Command Dashboard":
     st.title("📈 Strategic Infrastructure Command Suite")
     c1, c2, c3 = st.columns(3)
-    with c1: st.markdown(f'<div class="kpi-card"><div class="kpi-title">🔒 Pipeline Ingestion</div><div class="kpi-value">10,000</div><div class="kpi-delta">▲ 100% Ingested</div></div>', unsafe_allow_html=True)
-    with c2: st.markdown(f'<div class="kpi-card"><div class="kpi-title">🏆 Top Product ID</div><div class="kpi-value">{df_p["product_id"].iloc[0]}</div><div class="kpi-delta">⚡ Units Sold: {df_p["total_purchases"].iloc[0]}</div></div>', unsafe_allow_html=True)
-    with c3: st.markdown(f'<div class="kpi-card"><div class="kpi-title">🔥 Network Traffic Load</div><div class="kpi-value">15:00 Hrs</div><div class="kpi-delta">⏰ Peak Phase Axis</div></div>', unsafe_allow_html=True)
-    st.dataframe(df_p, use_container_width=True)
+    c1.markdown(f'<div class="kpi-card"><h3>Pipeline Ingestion</h3><p style="font-size:30px;">10,000</p></div>', unsafe_allow_html=True)
+    c2.markdown(f'<div class="kpi-card"><h3>Top Product ID</h3><p style="font-size:30px;">{df_p["product_id"].iloc[0]}</p></div>', unsafe_allow_html=True)
+    c3.markdown(f'<div class="kpi-card"><h3>Network Load</h3><p style="font-size:30px;">Optimal</p></div>', unsafe_allow_html=True)
+    st.dataframe(df_p.head(10), use_container_width=True)
 
 elif web_page == "🛍️ Supply Catalog Distribution":
-    st.title("🛍️ Advanced Inventory Sales Distribution Grid")
-    selected_id = st.selectbox("Select Product ID:", ["✨ Show All Performance Records"] + list(df_p['product_id'].astype(str)))
-    display_df = df_p if selected_id == "✨ Show All Performance Records" else df_p[df_p['product_id'].astype(str) == selected_id]
-    fig_p = px.bar(display_df, x='product_id', y='total_purchases', color='total_purchases', template="plotly_dark")
-    st.plotly_chart(fig_p, use_container_width=True)
-    st.dataframe(display_df, use_container_width=True)
+    st.title("🛍️ Advanced Inventory Sales Distribution")
+    sel = st.selectbox("Select Product:", ["All"] + list(df_p['product_id'].astype(str)))
+    df_v = df_p if sel == "All" else df_p[df_p['product_id'].astype(str) == sel]
+    fig = px.bar(df_v, x='product_id', y='total', color='total', template="plotly_dark")
+    fig.update_layout(height=500)
+    st.plotly_chart(fig, use_container_width=True)
 
 elif web_page == "📊 Funnel & Conversion Leak Analysis":
     st.title("📊 Pipeline Sequence Logic Funnel")
+    fig = px.funnel(df_f, x='val', y='event', color='event', template="plotly_dark")
+    fig.update_layout(height=500)
+    st.plotly_chart(fig, use_container_width=True)
+    # Added detailed logs
     for _, row in df_f.iterrows():
-        st.markdown(f"**{row['event_type']}** Log Flow: `{row['total_events']}`")
-        st.progress(min(row['total_events'] / 10000, 1.0))
+        st.write(f"**{row['event']}** - Reach: {row['val']} records ({(row['val']/10000)*100:.1f}%)")
 
 elif web_page == "📩 Support Request Pipeline":
-    st.title("📩 Admin Ticket Logging")
-    with st.form("support_form_override"):
-        st.text_input("Operator Designation Identity Name:")
-        st.selectbox("Infrastructure Cluster Node:", ["Database Connection Failure", "Data Frame Sequence Leak", "UI Viewport Sync Error"])
-        if st.form_submit_button("Transmit Encryption Log Data Block"):
-            st.success("Log Transmitted Successfully!")
+    st.title("📩 Admin Ticket Logging Portal")
+    with st.form("support"):
+        st.text_input("Operator Name")
+        st.text_area("Engineering Notes")
+        if st.form_submit_button("Submit Ticket"): st.success("Data Block Transmitted.")
